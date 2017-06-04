@@ -7,12 +7,13 @@ public class YahooFinance {
   public static double getPrice(final String ticker) {
     try {
       final URL url = 
-        new URL("http://download.finance.yahoo.com/d/quotes.csv?s=" + ticker + "&f=snd1l1yr");
+        new URL("http://download.finance.yahoo.com/d/quotes.csv?s=" + ticker + "&f=snl1");
       final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-      reader.lines().forEach(System.out::println);
-      final String data = reader.lines().limit(1).findFirst().get();
-      final String[] dataItems = data.split(",");
-      double price = Double.parseDouble(dataItems[dataItems.length - 1]);      
+      final String data = reader.lines()
+    		  .map(line -> { return line.replace("\",", "\",,");})
+    		  .findFirst().get();
+      final String[] dataItems = data.split(",,");
+      double price = Double.parseDouble(dataItems[2]);      
       return price;
     } catch(Exception ex) {
       throw new RuntimeException(ex);
