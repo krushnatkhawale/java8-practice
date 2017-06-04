@@ -1,0 +1,16 @@
+
+
+
+    System.out.println(
+      numbers.stream() //lazy evaluation
+        .filter(Sample::isGT3)
+        .filter(Sample::isEven)
+        .map(Sample::doubleit)
+        .findFirst()
+        .orElse(0));                    
+        
+    //filter, map, etc. are intermediate functions. They are not evaluated until a terminal
+    //function, like findFirst, is called.
+    
+    //The intermediate functions are used together and executed as one chunk, but minimally,
+    //only as necessary. No extra work than needed.    
